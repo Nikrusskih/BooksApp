@@ -1,0 +1,9 @@
+GET http://Localhost:8080/books/out
+
+###
+
+GET  http://Localhost:8080/books/out/all
+
+###
+
+GET http://Localhost:8080/books/out/id1
