@@ -1,10 +1,8 @@
 package ru.Nik_Russkikh.BooksApp.controller;
 
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,59 +10,71 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.Nik_Russkikh.BooksApp.model.Book;
 import ru.Nik_Russkikh.BooksApp.service.BookService;
 
+@CrossOrigin(origins = "http://Localhost:8080")
 @RestController
 @RequestMapping("/books")
-@Slf4j
-@RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+    @Autowired
+    BookService bookService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Book book) {
-        log.debug("[create] create={}",book);
-        bookService.create(book);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Book> createBook(@RequestBody Book book) {
+        return bookService.save(book);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Book>> getBookList() {
-        final List<Book> books = bookService.getAllBooks();
-        if (books != null && !books.isEmpty()) {
-            return new ResponseEntity<>(books, HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Book> getAllBooks(@RequestParam(required = false) String title) {
+        if (title != null) {
+            return bookService.findBookByTitle(title);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+        return bookService.findAllBooks();
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<Book> findBookByAuthor(@PathVariable("id") int id) {
-        final Book book = bookService.findBookByAuthor(id);
-        if (book != null) {
-            return new ResponseEntity<>(book, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Book> findBookById(@PathVariable("id") int id) {
+        return bookService.findBookById(id);
+    }
+
+//    @GetMapping("/list/{name}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public Flux<Book> findBookByName(@PathVariable("name") String name) {
+//        return bookService.findBookByName(name);
+//    }
+
+    @GetMapping("/list/{title}")
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Book> findBookByTitle(@PathVariable("title") String title) {
+        return bookService.findBookByTitle(title);
     }
 
     @PutMapping("/list/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable("id") int id, @RequestBody Book book) {
-        final boolean update = bookService.updateBook(book, id);
-        if (update) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Book> updateBook(@PathVariable("id") int id, @RequestBody Book book) {
+        return bookService.updateBook(id, book);
     }
 
     @DeleteMapping("/list/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable("id") int id) {
-        final boolean delete = bookService.deleteBook(id);
-        if (delete) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteBook(@PathVariable("id") int id) {
+        return bookService.deleteById(id);
+    }
+
+    @DeleteMapping("/list")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteAllBooks() {
+        return bookService.deleteAllBooks();
     }
 }
+

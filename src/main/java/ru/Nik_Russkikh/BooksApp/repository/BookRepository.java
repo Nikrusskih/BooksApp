@@ -1,10 +1,12 @@
-//package ru.Nik_Russkikh.BooksApp.repository;
-//
-//import java.util.List;
-//import ru.Nik_Russkikh.BooksApp.entity.Book;
-//
-//public interface BookRepository {
-//
-//    List<Book> findAll();
-//
-//}
+package ru.Nik_Russkikh.BooksApp.repository;
+
+
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import reactor.core.publisher.Flux;
+import ru.Nik_Russkikh.BooksApp.model.Book;
+
+public interface BookRepository extends R2dbcRepository<Book, Integer> {
+
+    //    Flux<Book> findByName(String name);
+    Flux<Book> findByTitle(String title);
+}

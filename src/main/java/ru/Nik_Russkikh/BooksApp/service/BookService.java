@@ -1,19 +1,73 @@
 package ru.Nik_Russkikh.BooksApp.service;
 
-import java.util.List;
+
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.Nik_Russkikh.BooksApp.model.Book;
+import ru.Nik_Russkikh.BooksApp.repository.BookRepository;
 
-public interface BookService {
+@Service
+public class BookService {
 
-    void create(Book book);
+    @Autowired
+    private BookRepository bookRepository;
 
-    List<Book> getAllBooks();
+    public Mono<Book> save(Book book) {
+        return bookRepository.save(book);
+    }
 
-    List<Book> getAllAuthors();
+    public Flux<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
 
-    Book findBookByAuthor(int id);
+    public Mono<Book> findBookById(int id) {
+        return bookRepository.findById(id);
+    }
 
-    boolean updateBook(Book book, int id);
+//    public Flux<Book> findBookByName(String name) {
+//        return bookRepository.findByName(name);
+//    }
 
-    boolean deleteBook(int id);
+    public Flux<Book> findBookByTitle(String title) {
+        return bookRepository.findByTitle(title);
+    }
+
+    public Mono<Book> updateBook(int id, Book book) {
+        return bookRepository.findById(id)
+                .map(Optional::of).defaultIfEmpty(Optional.empty())
+                .flatMap(optionalBook -> {
+                    if (optionalBook.isPresent()) {
+                        book.setId(id);
+                        return bookRepository.save(book);
+                    }
+                    return Mono.empty();
+                });
+    }
+
+    public Mono<Void> deleteById(int id) {
+        return bookRepository.deleteById(id);
+    }
+
+    public Mono<Void> deleteAllBooks() {
+        return bookRepository.deleteAll();
+    }
+
+//    public Mono<Book> updateBooks(Integer id, Book book){
+//        return bookRepository.findById(id)
+//                .flatMap(s->{
+//                    book.setId(s.getId());
+//                    return bookRepository.save(book);
+//                });
+//    }
+
+//    public Flux<Book> findBookByName(String name) {
+//        return (name!=null) ? bookRepository.findByName(name) : bookRepository.findAll();
+//    }
+    //    public Mono<Void> delete(Book book) {
+//        return template.delete(book).then();
+//    }
+
 }
