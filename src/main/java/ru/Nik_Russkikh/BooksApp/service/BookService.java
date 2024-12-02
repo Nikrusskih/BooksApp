@@ -23,19 +23,19 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Mono<Book> findBookById(int id) {
+    public Mono<Book> findBookById(Integer id) {
         return bookRepository.findById(id);
     }
 
-//    public Flux<Book> findBookByName(String name) {
-//        return bookRepository.findByName(name);
-//    }
+    public Flux<Book> findBookByAuthor(String author) {
+        return bookRepository.findByAuthor(author);
+    }
 
     public Flux<Book> findBookByTitle(String title) {
         return bookRepository.findByTitle(title);
     }
 
-    public Mono<Book> updateBook(int id, Book book) {
+    public Mono<Book> updateBook(Integer id, Book book) {
         return bookRepository.findById(id)
                 .map(Optional::of).defaultIfEmpty(Optional.empty())
                 .flatMap(optionalBook -> {
@@ -47,7 +47,7 @@ public class BookService {
                 });
     }
 
-    public Mono<Void> deleteById(int id) {
+    public Mono<Void> deleteById(Integer id) {
         return bookRepository.deleteById(id);
     }
 

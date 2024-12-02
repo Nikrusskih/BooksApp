@@ -1,8 +1,9 @@
 package ru.Nik_Russkikh.BooksApp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,10 @@ import reactor.core.publisher.Mono;
 import ru.Nik_Russkikh.BooksApp.model.Book;
 import ru.Nik_Russkikh.BooksApp.service.BookService;
 
-@CrossOrigin(origins = "http://Localhost:8080")
+@Tag(name = "AppBooks", description = "Book management APIs")
 @RestController
 @RequestMapping("/books")
+@RequiredArgsConstructor
 public class BookController {
 
     @Autowired
@@ -41,16 +43,16 @@ public class BookController {
         return bookService.findAllBooks();
     }
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> findBookById(@PathVariable("id") int id) {
+    public Mono<Book> findBookById(@PathVariable("id") Integer id) {
         return bookService.findBookById(id);
     }
 
-//    @GetMapping("/list/{name}")
+//    @GetMapping("/list/{author}")
 //    @ResponseStatus(HttpStatus.OK)
-//    public Flux<Book> findBookByName(@PathVariable("name") String name) {
-//        return bookService.findBookByName(name);
+//    public Flux<Book> findBookByAuthor(@PathVariable("author") String author) {
+//        return bookService.findBookByAuthor(author);
 //    }
 
     @GetMapping("/list/{title}")
@@ -59,15 +61,15 @@ public class BookController {
         return bookService.findBookByTitle(title);
     }
 
-    @PutMapping("/list/{id}")
+    @PutMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> updateBook(@PathVariable("id") int id, @RequestBody Book book) {
+    public Mono<Book> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
         return bookService.updateBook(id, book);
     }
 
     @DeleteMapping("/list/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteBook(@PathVariable("id") int id) {
+    public Mono<Void> deleteBook(@PathVariable("id") Integer id) {
         return bookService.deleteById(id);
     }
 

@@ -1,18 +1,23 @@
 package ru.Nik_Russkikh.BooksApp.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @jakarta.persistence.Id
     @Id
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
     String author;
     String title;
 
     public Book() {
-
     }
 
     public Book(String author, String title) {
@@ -20,12 +25,12 @@ public class Book {
         this.title = title;
     }
 
-    public int getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public String getAuthor() {

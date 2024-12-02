@@ -15,14 +15,15 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @SpringBootApplication
 public class BooksAppApplication {
 
-	@Bean
-	ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory){
-		ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
-		initializer.setConnectionFactory(connectionFactory);
-		initializer.setDatabasePopulator(new ResourceDatabasePopulator(new ClassPathResource("create_table_book.sql")));
-
-		return initializer;
-	}
+//	@Bean
+//	ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory){
+//		ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
+//		initializer.setConnectionFactory(connectionFactory);
+//		initializer.setDatabasePopulator(new ResourceDatabasePopulator(new ClassPathResource(
+//				"DB/001_create_table_book.sql")));
+//
+//		return initializer;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooksAppApplication.class, args);
