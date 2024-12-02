@@ -49,13 +49,13 @@ public class BookController {
         return bookService.findBookById(id);
     }
 
-//    @GetMapping("/list/{author}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Flux<Book> findBookByAuthor(@PathVariable("author") String author) {
-//        return bookService.findBookByAuthor(author);
-//    }
+    @GetMapping("/list/author/{author}")
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Book> findBookByAuthor(@PathVariable("author") String author) {
+        return bookService.findBookByAuthor(author);
+    }
 
-    @GetMapping("/list/{title}")
+    @GetMapping("/list/title/{title}")
     @ResponseStatus(HttpStatus.OK)
     public Flux<Book> findBookByTitle(@PathVariable("title") String title) {
         return bookService.findBookByTitle(title);
