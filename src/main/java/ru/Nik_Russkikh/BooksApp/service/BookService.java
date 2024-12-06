@@ -23,7 +23,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Mono<Book> findBookById(Integer id) {
+    public Mono<Book> findBookById(Long id) {
         return bookRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    public Mono<Book> updateBook(Integer id, Book book) {
+    public Mono<Book> updateBook(Long id, Book book) {
         return bookRepository.findById(id)
                 .map(Optional::of).defaultIfEmpty(Optional.empty())
                 .flatMap(optionalBook -> {
@@ -47,7 +47,7 @@ public class BookService {
                 });
     }
 
-    public Mono<Void> deleteById(Integer id) {
+    public Mono<Void> deleteById(Long id) {
         return bookRepository.deleteById(id);
     }
 

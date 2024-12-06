@@ -13,7 +13,7 @@ public class Book {
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
     String author;
     String title;
 
@@ -25,11 +25,11 @@ public class Book {
         this.title = title;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -57,4 +57,6 @@ public class Book {
                 ", title='" + title + '\'' +
                 '}';
     }
+
+
 }

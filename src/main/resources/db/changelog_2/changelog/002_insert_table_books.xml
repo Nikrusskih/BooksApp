@@ -1,0 +1,21 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="002_insert_table_books" author="NikRusskikh">
+
+        <insert tableName="books">
+            <column name="id" value="1"/>
+            <column name="author" value="Bruce Eckel"/>
+            <column name="title" value="Thinking in Java"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="2"/>
+            <column name="author" value="Benjamin J. Evans"/>
+            <column name="title" value="Java in a Nutshell: A Desktop Quick Reference"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

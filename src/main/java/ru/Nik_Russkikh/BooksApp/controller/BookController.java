@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.server.HttpServerResponse;
 import ru.Nik_Russkikh.BooksApp.model.Book;
 import ru.Nik_Russkikh.BooksApp.service.BookService;
 
@@ -45,7 +46,7 @@ public class BookController {
 
     @GetMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> findBookById(@PathVariable("id") Integer id) {
+    public Mono<Book> findBookById(@PathVariable("id") Long id) {
         return bookService.findBookById(id);
     }
 
@@ -63,13 +64,13 @@ public class BookController {
 
     @PutMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
+    public Mono<Book> updateBook(@PathVariable("id") Long id, @RequestBody Book book) {
         return bookService.updateBook(id, book);
     }
 
     @DeleteMapping("/list/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteBook(@PathVariable("id") Integer id) {
+    public Mono<Void> deleteBook(@PathVariable("id") Long id) {
         return bookService.deleteById(id);
     }
 
