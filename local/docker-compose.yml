@@ -14,11 +14,11 @@ services:
       - 5433:5432
 
   booksApp:
-    image: books_app
+    image: books_app:latest
     build:
       dockerfile: Dockerfile
     environment:
-      SPRING_DATASOURCE_URL: r2dbc:postgresql://books-dg:5433/postgres
+      SPRING_DATASOURCE_URL: r2dbc:postgresql://books-dg:5432/postgres
     ports:
       - 8080:8080
     depends_on:
