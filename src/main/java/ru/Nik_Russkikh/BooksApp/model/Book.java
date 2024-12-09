@@ -3,6 +3,8 @@ package ru.Nik_Russkikh.BooksApp.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -12,7 +14,7 @@ public class Book {
 
     @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_id_seq")
     Long id;
     String author;
     String title;
