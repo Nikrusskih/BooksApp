@@ -7,7 +7,5 @@ import ru.Nik_Russkikh.BooksApp.model.Book;
 
 public interface BookRepository extends R2dbcRepository<Book, Long> {
 
-    Flux<Book> findByAuthor(String author);
-
     Flux<Book> findByTitle(String title);
 }

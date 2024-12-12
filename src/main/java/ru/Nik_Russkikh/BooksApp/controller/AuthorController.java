@@ -16,61 +16,49 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.Nik_Russkikh.BooksApp.model.Author;
 import ru.Nik_Russkikh.BooksApp.model.Book;
-import ru.Nik_Russkikh.BooksApp.service.BookService;
+import ru.Nik_Russkikh.BooksApp.service.AuthorService;
 
 @Tag(name = "AppBooks", description = "Book management APIs")
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/authors")
 @RequiredArgsConstructor
-public class BookController {
+public class AuthorController {
 
-    @Autowired
-    BookService bookService;
+    AuthorService authorService;
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Book> createBook(@RequestBody Book book) {
-        return bookService.save(book);
+    public Mono<Author> createAuthor(@RequestBody Author author) {
+        return authorService.save(author);
     }
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public Flux<Book> getAllBooks(@RequestParam(required = false) String title) {
-        if (title != null) {
-            return bookService.findBookByTitle(title);
+    public Flux<Author> getAllAuthors(@RequestParam(required = false) String author) {
+        if (author != null) {
+            return authorService.findByAuthor(author);
         }
-        return bookService.findAllBooks();
+        return authorService.findAllAuthors();
     }
 
     @GetMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> findBookById(@PathVariable("id") Long id) {
-        return bookService.findBookById(id);
+    public Mono<Author> findBookById(@PathVariable("id") Long id) {
+        return authorService.findAuthorById(id);
     }
 
-    @GetMapping("/list/title/{title}")
+    @GetMapping("/list/author/{author}")
     @ResponseStatus(HttpStatus.OK)
-    public Flux<Book> findBookByTitle(@PathVariable("title") String title) {
-        return bookService.findBookByTitle(title);
+    public Flux<Author> findByAuthor(@PathVariable("author") String author) {
+        return authorService.findByAuthor(author);
     }
 
     @PutMapping("/list/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Book> updateBook(@PathVariable("id") Long id, @RequestBody Book book) {
-        return bookService.updateBook(id, book);
+    public Mono<Author> updateAuthor(@PathVariable("id") Long id, @RequestBody Author author) {
+        return authorService.updateAuthor(id, author);
     }
 
-    @DeleteMapping("/list/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteBook(@PathVariable("id") Long id) {
-        return bookService.deleteById(id);
-    }
-
-    @DeleteMapping("/list")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteAllBooks() {
-        return bookService.deleteAllBooks();
-    }
 }
-

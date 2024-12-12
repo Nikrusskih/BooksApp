@@ -8,8 +8,9 @@ INCREMENT BY 1;
 CREATE TABLE IF NOT EXISTS Books
 (
     id     INT NOT NULL DEFAULT nextval('book_id_seq'),
-    author VARCHAR(255),
+    author_id INT,
     title  VARCHAR(255),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (author_id) REFERENCES Authors (id)
 );
 ALTER SEQUENCE book_id_seq OWNED BY Books.id;
